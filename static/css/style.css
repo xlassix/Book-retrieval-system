@@ -1,0 +1,70 @@
+.row{
+    padding: 10px;
+}
+.container{
+    min-width: 400px;
+}
+
+.jumbotron{
+    padding: 2rem 1rem;
+    background-color: rgb(82, 169, 209);
+}
+
+.form-control{
+    margin: 10px;
+}
+.cool-me{
+    background-color: #141E30 !important;
+}
+.bg-cool{
+    background-color: #141E30 !important;
+}
+.input-group,.input-group-text,.input-group-append{
+    padding: 0px;
+}
+.form-control-no-border{
+    padding: 0px;
+    margin: 0px;
+}
+
+.myavatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+  }
+
+  .centreb{
+      margin: 0 auto!important;
+  }
+  .genric-btn {
+    display: inline-block;
+    outline: none;
+    line-height: 40px;
+    padding: 0 35px;
+    font-size: 1rem;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 500;
+    margin: 0 auto;
+    cursor: pointer;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+  
+  }
+  .genric-btn.circle {
+    border-radius: 20px;
+  }
+  .genric-btn.success-border {
+    color: #4cd3e3;
+    border: 1px solid #4cd3e3;
+    background: #fff;
+  }
+  
+  /* line 251, ../../01 cl html template/03_jun 2019/185 Ecobit SAAS html/sass/_elements.scss */
+  .genric-btn.success-border:hover {
+    color: #fff;
+    background: #4cd3e3;
+    border: 1px solid transparent;
+  }

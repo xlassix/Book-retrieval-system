@@ -1,0 +1,129 @@
+{% extends "userbase.html" %}
+{% load static%}
+{% block action_type %}
+
+<div class="content">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="title">Edit Profile</h5>
+          </div>
+          <div class="card-body">
+            <form>
+              <div class="row">
+                <div class="col-md-5 px-1">
+                  <div class="form-group">
+                    <label>Matric</label>
+                    <input type="text" class="form-control" placeholder="Username" disabled value="{{request.user.username}}">
+                  </div>
+                </div>
+                <div class="col-md-7 pl-1">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Email address</label>
+                    <input type="email" class="form-control" placeholder="Email" value="{{request.user.email}}">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 pr-1">
+                  <div class="form-group">
+                    <label>First Name</label>
+                    <input type="text" class="form-control" placeholder="Company" value="{{request.user.first_name}}">
+                  </div>
+                </div>
+                <div class="col-md-6 pl-1">
+                  <div class="form-group">
+                    <label>Last Name</label>
+                    <input type="text" class="form-control" placeholder="Last Name" value="{{request.user.last_name}}">
+                  </div>
+                </div>
+              </div>
+                <div class="col-12">
+                  <div class="row">
+                    <div class="col-5">
+                      <p class="lead books text-center" style="color: #9A9A9A!important;font-size: 1.2rem !important;">Categories</p>
+                        <select name="from[]" id="customSort" class="form-control" style="height:300px;" size="8" multiple="multiple">
+                            <option class="ml-1" value="1">Item 1</option>
+                            <option class="ml-1"value="5">Item 5</option>
+                            <option class="ml-1"value="2">Item 2</option>
+                            <option class="ml-1"value="4">Item 4</option>
+                            <option class="ml-1"value="3">Item 3</option>
+                        </select>
+                    </div>
+                    
+                    <div class="col-2" style="margin:auto 0;">
+                        <button type="button" id="customSort_rightAll" class="btn btn-block"><i class="now-ui-icons arrows-1_minimal-up"></i></button>
+                        <button type="button" id="customSort_rightSelected" class="btn btn-block"><i class="now-ui-icons arrows-1_minimal-right"></i></button>
+                        <button type="button" id="customSort_leftSelected" class="btn btn-block"><i class="now-ui-icons arrows-1_minimal-left"></i></button>
+                        <button type="button" id="customSort_leftAll" class="btn btn-block"><i class="now-ui-icons arrows-1_minimal-down"></i></button>
+                    </div>
+                    
+                    <div class="col-5" >
+                      <p class="lead text-center" style="color: #9A9A9A!important;font-size: 1.2rem !important;">Books of Interest</p>
+                        <select name="to[]" style="height:300px;" id="customSort_to" class="form-control" size="8" multiple="multiple"></select>
+                    </div>
+                </div>
+              </div>
+              <div class='row'>
+                <button class="genric-btn circle success-border" style="margin: 0 auto;">SAVE</button>
+              </div>
+            </form>
+            </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="d-flex flex-row">
+          <div class="card card-user">
+            <div class="card-body">
+              <div class="author">
+                  <img class="avatar border-gray m-4" src=' {% static "./img/default-avatar.png" %}' alt="...">
+                  <h5 class="title">{{request.user.get_full_name}}</h5>
+                <p class="description">
+                  {{request.user.get_username}}
+                </p>
+              </div>
+              <p class="description text-center">
+                "Lamborghini Mercy <br>
+                Your chick she so thirsty <br>
+                I'm in that two seat Lambo"
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <h5 class="title">Change password</h5>
+          </div>
+          <div class="card-body">
+            <form method="POST" name="change_password">
+              {% csrf_token %}
+                    {% if form %}
+                        {% for field in form %}
+                            <div class='form-group col-11'>
+                                {{field}}
+                                {% for error in field.errors %}
+                                    <div class="alert alert-danger" style="margin-left: 10px; font-size: 0.75rem;">
+                                        <strong>{{ error|escape }}</strong>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                        {% for error in form.non_field_errors %}
+                            <div class='form-group col-11'>
+                                <div class="alert alert-danger p-1">
+                                    <strong>{{ error|escape }}</strong>
+                                </div>
+                            </div>
+                        {% endfor %}
+                      <div class="row">
+                        <button class="genric-btn circle success-border centerb">Reset Password</button>
+                      </div>
+                    {% endif %}
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{%endblock%}

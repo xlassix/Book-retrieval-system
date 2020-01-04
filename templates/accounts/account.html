@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Book retrival System</title>
+    {% load static %}
+    <link rel="stylesheet" href=' {% static "css/bootstrap.min.css" %}' type='text/css'>
+    <link rel='stylesheet' href=' {% static "css/style.css" %}' type='text/css'>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class='col-8 col-md-6 col-lg-4 offset-2 offset-md-3 offset-lg-4'>
+                <img class="col-12 flex-fill" src=' {% static "img/c.png" %}'/>
+            </div>
+            <h1 class='col-12 lead text-center flex' style="font-size: 2rem;">Book Retrieval System</h1>
+            </div>
+            <div class="jumbotron row col-8 col-md-6 col-lg-4 offset-2 offset-md-3 offset-lg-4">
+                <form  method="post" class='row'>
+                    {% csrf_token %}
+                    {% if form %}
+                        {% for field in form %}
+                            <div class='col-11'>
+                                {{field}}
+                                {% for error in field.errors %}
+                                    <div class="alert alert-danger" style="margin-left: 10px; font-size: 0.75rem;">
+                                        <strong>{{ error|escape }}</strong>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                        {% for error in form.non_field_errors %}
+                            <div class='col-11'>
+                                <div class="alert alert-danger p-1">
+                                    <strong>{{ error|escape }}</strong>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        {%if form.register%}
+                            <button class="genric-btn circle success-border centerb">Register</button>
+                        {%else%}
+                            <button class="genric-btn circle success-border centerb">Login</button>
+                        {% endif%}
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
