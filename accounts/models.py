@@ -16,13 +16,16 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField('active', default=True)
     is_staff = models.BooleanField('active', default=False)
     avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)
+    favourite_books = models.CharField(max_length=2048, blank=True)
 
     objects = UserManager()
+
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ["username",'first_name','last_name',"avatar"]
     class Meta:
         managed=True
+        unique_together = [['first_name', 'last_name']]
         db_table = 'Users'
         verbose_name = 'user'
         verbose_name_plural = 'users'
@@ -31,6 +34,13 @@ class User(AbstractBaseUser, PermissionsMixin):
     def get_full_name(self):
         full_name = '%s %s' % (str.title(self.first_name),str.title(self.last_name))
         return full_name.strip()
+    def update_mail(self,mail):
+        self.email=mail
+        self.save()
+    def update_names(self,first_name,last_name):
+        self.first_name,self.last_name=first_name,last_name
+        self.save()
+
 
     def get_short_name(self):
         '''

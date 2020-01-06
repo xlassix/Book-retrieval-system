@@ -67,3 +67,20 @@ class Change_password_form(forms.Form):
     def get_data(self):
         data=super(Change_password_form, self).clean()
         return data
+
+class Update_form(forms.Form):
+    first_name = forms.CharField(validators=[ProhibitNullCharactersValidator],label='first_name', max_length=30,widget=forms.TextInput(attrs={'class':"form-control",'placeholder':"First Name"}))
+    last_name = forms.CharField(validators=[ProhibitNullCharactersValidator],label='last_name', max_length=30, widget=forms.TextInput(attrs={'class':"form-control",'placeholder':"Last Name"}))
+    def clean(self):
+        return super(Update_form, self).clean()
+    def get_data(self):
+        data=super(Update_form, self).clean()
+        return data
+
+class Update_mail_form(forms.Form):
+    email = forms.EmailField(validators=[validate_email],label='email', max_length=50,widget=forms.TextInput(attrs={'class':"form-control",'placeholder':"Email"}))
+    def clean(self):
+        return super(Update_mail_form, self).clean()
+    def get_data(self):
+        data=super(Update_mail_form, self).clean()
+        return data
