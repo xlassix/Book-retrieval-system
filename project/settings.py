@@ -103,7 +103,7 @@ DATABASES = {
         }
     },
        'default': {
-      'ENGINE': 'django.db.backends.mysql',
+      'ENGINE': 'django.db.backends.postgresql',
       'NAME': 'd2pscms9l67qa1',
       'USER': 'admqdumnnxwlje',
       'PASSWORD': '59457846f4bf848f959d3702527d177f185947313af37f6008498f057dc4c268',
