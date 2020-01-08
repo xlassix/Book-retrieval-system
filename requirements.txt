@@ -2,3 +2,5 @@ django
 django-import-export
 django-heroku
 mysqlclient
+psycopg2
+dj_database_url
