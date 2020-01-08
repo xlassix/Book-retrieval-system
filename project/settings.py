@@ -104,11 +104,11 @@ DATABASES = {
     },
        'default': {
       'ENGINE': 'django.db.backends.mysql',
-      'NAME': 'django',
-      'USER': 'root',
-      'PASSWORD': '',
-      'HOST': '127.0.0.1',
-      'PORT': '3306',
+      'NAME': 'd2pscms9l67qa1',
+      'USER': 'admqdumnnxwlje',
+      'PASSWORD': '59457846f4bf848f959d3702527d177f185947313af37f6008498f057dc4c268',
+      'HOST': 'ec2-174-129-33-25.compute-1.amazonaws.com',
+      'PORT': '5432',
    }
 }
 
