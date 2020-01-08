@@ -3,30 +3,49 @@ from django.shortcuts import render,redirect
 from django.views import View
 from django.contrib.auth import get_user_model, authenticate
 from django.contrib import messages
-
-
+from django.http import HttpResponse
+from .resources import BooksResource
+from .models import Books
+import json
+from django.db.models import Q
+from django.core.paginator import Paginator
+from django.core import serializers
 class Dashboard_view(View):
     template_name = 'pages/home.html'
-
+    #return super(Api, self).dispatch(request, *args, **kwargs)
     def get(self, request, *args, **kwargs):
-        return render(request, self.template_name, {'dash_active': 'active'})
+        try:
+            if request.session['search'].strip()=='':
+                raise ValueError
+            data=[i for i in serializers.deserialize("json", request.session['data'])]
+            self.paginator = Paginator(data, 25)
+            page = request.GET.get('page',1)
+            pages = self.paginator.get_page(page)
+            object_list=Books.objects.filter(pk__in=[i.object.pk for i in pages])
+            #print(list(object_list))
+            return render(request, self.template_name, {"content_pages":pages,"object_list":list(object_list),'dash_active': 'active',"search":request.session['search']})
+        except:
+            self.paginator = Paginator(Books.objects.all(), 25)
+            page = request.GET.get('page',1)
+            pages = self.paginator.get_page(page)
+            return render(request, self.template_name, {"object_list":pages,"content_pages":pages,'dash_active': 'active'})
 
     def post(self, request, *args, **kwargs):
-        form=None
-        if form.is_valid():
-            if form.register:
-                email,username,password,extra_data=form.get_data()
-                User = get_user_model()
-                User.objects.create_user(email=email,username=username, password=password,**extra_data)
-                return HttpResponseRedirect('')
-            else:
-                data=form.get_data()
-                user = authenticate(username=data['username'], password=data['password'])
-                if user is not None:
-                    return HttpResponseRedirect('/home')
-                else:
-                    form.add_error('password', "invalid credentials")
-        return render(request, self.template_name, {'form': form,'dash_active': 'active'})
+        search=request.POST['search']
+        request.session["search"]=search
+        if search.strip()=="":
+            self.paginator = Paginator(Books.objects.all(), 25)
+            page = request.GET.get('page',1)
+            pages = self.paginator.get_page(page)
+            return render(request, self.template_name, {"object_list":pages,"content_pages":pages,'dash_active': 'active'})
+        else:
+            self.query=Books.objects.filter(Q(original_title__icontains=search) | Q(title__icontains=search)| Q(original_publication_year__icontains=search)|Q(authors__icontains=search)|Q(isbn__icontains=search)).order_by('-average_rating')
+            #object_list =[i for i in self.query]
+            self.paginator = Paginator(self.query, 25) # Show 25 contacts per page
+            request.session["data"]=serializers.serialize("json", self.query)
+            page = request.GET.get('page',1)
+            pages = self.paginator.get_page(page)
+            return render(request, self.template_name, {"content_pages":pages,"object_list":pages,'dash_active': 'active',"search":request.session['search']})
 class Profile_view(View):
     template_name = 'pages/profile.html'
     form_class=None
@@ -84,3 +103,67 @@ class Profile_view(View):
             )
         return render(request, self.template_name, {'user_active': 'active',"form":form,'form_update':form_update,'form_update_mail':form_update_mail})
 
+
+
+def export(request):
+    person_resource = BooksResource()
+    dataset = person_resource.export()
+    response = HttpResponse(dataset.csv, content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="books_in_db.csv"'
+    return response
+
+
+
+from tablib import Dataset
+
+def simple_upload(request):
+    if request.method == 'POST':
+        book_resource = BooksResource()
+        dataset = Dataset()
+        new_persons = request.FILES['myfile']
+
+        dataset.load(new_persons.read().decode('utf-8'))
+        result = book_resource.import_data(dataset, dry_run=True)  # Test the data import
+
+        if not result.has_errors():
+            book_resource.import_data(dataset, dry_run=False)  # Actually import now
+    return render(request, 'core/simple_upload.html')
+
+
+
+class Management_view(View):
+    template_name = 'pages/management.html'
+
+    def get(self, request, *args, **kwargs):
+        messages.add_message(
+                request, messages.SUCCESS, 'connect to database',
+                fail_silently=True,
+            )
+        return render(request, self.template_name, {'not_active': 'active'})
+
+    def post(self, request, *args, **kwargs):
+        print(request.FILES)
+        book_resource = BooksResource()
+        dataset = Dataset()
+        new_persons = request.FILES['myfile']
+
+        dataset.load(new_persons.read().decode('utf-8'))
+        result = book_resource.import_data(dataset, dry_run=True,raise_errors=True)  # Test the data import
+
+        if not result.has_errors():
+            messages.add_message(
+                request, messages.SUCCESS, 'success',
+                fail_silently=True,
+            )
+            book_resource.import_data(dataset, dry_run=False)
+            messages.add_message(
+                request, messages.SUCCESS, 'success',
+                fail_silently=True,
+            )
+        else:
+            messages.error(request,"An error occured") # Actually import now
+            messages.add_message(
+                request, messages.WARNING, 'invalid',
+                fail_silently=True,
+            )
+        return render(request, self.template_name, {'not_active': 'active'})

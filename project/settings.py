@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-
+import django_heroku
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -25,6 +25,8 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+SECRET_KEY='232FF938NN!@#&^$()(@&@$(@)@*)@_@$@$(@$@^$%^@^*$&@$^$*@$(@$(@^@$)))'
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -35,12 +37,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    #third_party
+    'import_export',
 
     #local
     'pages',
     "accounts",
+    
 ]
 AUTH_USER_MODEL = 'accounts.User'
+IMPORT_EXPORT_USE_TRANSACTIONS = True
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -76,17 +82,25 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
-    'defaultx': {
+    'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+
     },
-        'default': {
+        'defaultx': {
         'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'XXXXXXXXX',
-        'USER': 'XXXXXX',
-        'PASSWORD': 'XXXXXXXXX',
+        'NAME': 'start',
+        'USER': 'root',
+        'PASSWORD': 'db_password',
         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
         'PORT': '3300',
+        'OPTIONS': {
+            'charset': 'utf8',
+            'init_command': 'SET '
+                'storage_engine=INNODB,'
+                'character_set_connection=utf8,'
+                'collation_connection=utf8_bin'
+        }
     }
 }
 
@@ -132,3 +146,5 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 #MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
+
+django_heroku.settings(locals())

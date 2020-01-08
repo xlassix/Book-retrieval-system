@@ -1,164 +1,103 @@
 {% extends "userbase.html" %}
-
+{% load filter %}
 {% block action_type %}
 
-<div class="content">
-    <div class="row">
-      <div class="col-lg-4">
-        <div class="card card-chart">
-          <div class="card-header">
-            <h5 class="card-category">Global Sales</h5>
-            <h4 class="card-title">Shipped Products</h4>
-            <div class="dropdown">
-              <button type="button" class="btn btn-round btn-outline-default dropdown-toggle btn-simple btn-icon no-caret" data-toggle="dropdown">
-                <i class="now-ui-icons loader_gear"></i>
-              </button>
-              <div class="dropdown-menu dropdown-menu-right">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
-                <a class="dropdown-item text-danger" href="#">Remove Data</a>
-              </div>
-            </div>
-          </div>
-          <div class="card-body">
-            <div class="chart-area">
-              <canvas id="lineChartExample"></canvas>
-            </div>
-          </div>
-          <div class="card-footer">
-            <div class="stats">
-              <i class="now-ui-icons arrows-1_refresh-69"></i> Just Updated
-            </div>
+<div class='content' style="min-height: 50px;">
+  <div class='row card'>
+    <div class='card-title'>Find a book</div>
+    <form method="POST">
+      {% csrf_token %}
+      <div class="input-group no-border">
+        <div class="input-group">
+          <input type="text" name="search" class="form-control m-0" placeholder="Search..." >
+        <div class="input-group-append m-0">
+          <div class="input-group-text m-0">
+            <button type="submit" class="now-ui-icons ui-1_zoom-bold" style="border: 0;"></button>
           </div>
         </div>
-      </div>
-      <div class="col-lg-4 col-md-6">
-        <div class="card card-chart">
-          <div class="card-header">
-            <h5 class="card-category">2018 Sales</h5>
-            <h4 class="card-title">All products</h4>
-            <div class="dropdown">
-              <button type="button" class="btn btn-round btn-outline-default dropdown-toggle btn-simple btn-icon no-caret" data-toggle="dropdown">
-                <i class="now-ui-icons loader_gear"></i>
-              </button>
-              <div class="dropdown-menu dropdown-menu-right">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
-                <a class="dropdown-item text-danger" href="#">Remove Data</a>
-              </div>
-            </div>
-          </div>
-          <div class="card-body">
-            <div class="chart-area">
-              <canvas id="lineChartExampleWithNumbersAndGrid"></canvas>
-            </div>
-          </div>
-          <div class="card-footer">
-            <div class="stats">
-              <i class="now-ui-icons arrows-1_refresh-69"></i> Just Updated
-            </div>
-          </div>
         </div>
       </div>
-      <div class="col-lg-4 col-md-6">
-        <div class="card card-chart">
-          <div class="card-header">
-            <h5 class="card-category">Email Statistics</h5>
-            <h4 class="card-title">24 Hours Performance</h4>
+    </form>
+  </div>
+</div>
+{%if search%}
+<div class='lead'>
+  <h3 class="text-center">Search for : {{search}} </h3>
+</div>
+{%else%}
+<div class="">
+  <h3 class="lead">All Books</h3>
+</div>
+{%endif%}
+<div class='content row'>
+  {% for object in object_list %}
+  <div class="card row" style="min-height: 150px; overflow: hidden;">
+    <div class="row no-gutters">
+      <div class="col-lg-2 col-4">
+        <img src="{{object.image_url}}" style="height: 190px;"  class="card-img rounded" alt="...">
+      </div>
+      <div class="col-lg-10 col-8">
+        <div class="card-body">
+          <h5 class="card-title">{{object.title}}</h5>
+          <div class='row card-subtitle'>
+            <p class='col-md-4' style="margin: auto 0;">Shelf:{{object.location}}</p>
+            <p class="col-md-4">Book Count:
+              <button class='genric-btn circle success-border'>{{object.books_count}}</button>
+            </p>
           </div>
-          <div class="card-body">
-            <div class="chart-area">
-              <canvas id="barChartSimpleGradientsNumbers"></canvas>
+          <div class='row card-text'>
+            <div class="col-md-4 d-flex">
+              <p class="col-5 m-0 p-0" style="margin: auto 0; white-space: normal;text-overflow: ellipsis;">Ratings:</p>
+              <div class='col-7 d-flex pb-1' style="margin:0;">
+                <div class="star-ratings-css">
+                  <div class="star-ratings-css top" style="width: {{object.average_rating|multi:20}}%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                  <div class="star-ratings-css bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="card-footer">
-            <div class="stats">
-              <i class="now-ui-icons ui-2_time-alarm"></i> Last 7 days
-            </div>
+            <p class="col-md-5 " style="margin: auto 0;" >Authors: {{object.authors}}</p>
+            <p class="col-md-3" style="margin: auto 0;" >Publication Year: {{object.original_publication_year}}</p>
           </div>
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-6">
-        <div class="card  card-tasks">
-          <div class="card-header ">
-            <h4 class="card-title">Tasks</h4>
-          </div>
-          <div class="card-body ">
-            <div class="table-full-width table-responsive">
-              <table class="table">
-                <tbody>
-                  <tr>
-                    <td>
-                      <div class="form-check">
-                        <label class="form-check-label">
-                          <input class="form-check-input" type="checkbox" checked>
-                          <span class="form-check-sign"></span>
-                        </label>
-                      </div>
-                    </td>
-                    <td class="text-left">Sign contract for "What are conference organizers afraid of?"</td>
-                    <td class="td-actions text-right">
-                      <button type="button" rel="tooltip" title="" class="btn btn-info btn-round btn-icon btn-icon-mini btn-neutral" data-original-title="Edit Task">
-                        <i class="now-ui-icons ui-2_settings-90"></i>
-                      </button>
-                      <button type="button" rel="tooltip" title="" class="btn btn-danger btn-round btn-icon btn-icon-mini btn-neutral" data-original-title="Remove">
-                        <i class="now-ui-icons ui-1_simple-remove"></i>
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div class="form-check">
-                        <label class="form-check-label">
-                          <input class="form-check-input" type="checkbox">
-                          <span class="form-check-sign"></span>
-                        </label>
-                      </div>
-                    </td>
-                    <td class="text-left">Lines From Great Russian Literature? Or E-mails From My Boss?</td>
-                    <td class="td-actions text-right">
-                      <button type="button" rel="tooltip" title="" class="btn btn-info btn-round btn-icon btn-icon-mini btn-neutral" data-original-title="Edit Task">
-                        <i class="now-ui-icons ui-2_settings-90"></i>
-                      </button>
-                      <button type="button" rel="tooltip" title="" class="btn btn-danger btn-round btn-icon btn-icon-mini btn-neutral" data-original-title="Remove">
-                        <i class="now-ui-icons ui-1_simple-remove"></i>
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div class="form-check">
-                        <label class="form-check-label">
-                          <input class="form-check-input" type="checkbox" checked>
-                          <span class="form-check-sign"></span>
-                        </label>
-                      </div>
-                    </td>
-                    <td class="text-left">Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit
-                    </td>
-                    <td class="td-actions text-right">
-                      <button type="button" rel="tooltip" title="" class="btn btn-info btn-round btn-icon btn-icon-mini btn-neutral" data-original-title="Edit Task">
-                        <i class="now-ui-icons ui-2_settings-90"></i>
-                      </button>
-                      <button type="button" rel="tooltip" title="" class="btn btn-danger btn-round btn-icon btn-icon-mini btn-neutral" data-original-title="Remove">
-                        <i class="now-ui-icons ui-1_simple-remove"></i>
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-          <div class="card-footer ">
-            <hr>
-            <div class="stats">
-              <i class="now-ui-icons loader_refresh spin"></i> Updated 3 minutes ago
-            </div>
-          </div>
-        </div>
-      </div>
+  </div> 
+  {%endfor%}
+</div>
+  <div class='row content' style="min-height: 20px;">
+      {% if  content_pages.has_other_pages %}
+      <nav aria-label="Page navigation d-print-none" style="margin:auto;">
+          <ul class="pagination d-print-none">
+
+              {% if content_pages.has_previous %}
+                  <li class="page-item"><a href="?page={{ content_pages.previous_page_number }}" class="page-link"><i class="fa fa-chevron-left" aria-hidden="true"></i></a></li>
+              {% else %}
+                  <li class="page-item disabled"><span class="page-link" ><i class="fa fa-chevron-left" aria-hidden="true"></i></span></li>
+              {% endif %}
+              
+              {% if content_pages.number|add:'-9' > 1 %}
+                  <li class="page-item"><a  class="page-link" href="?page={{ content_pages.number|add:'-5' }}">&hellip;</a></li>
+              {% endif %}
+              
+              {% for i in content_pages.paginator.page_range %}
+                  {% if content_pages.number == i %}
+                      <li class="page-item active"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span></li>
+                  {% elif i > content_pages.number|add:'-10' and i < content_pages.number|add:'10' %}
+                      <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                  {% endif %}
+              {% endfor %}
+              
+              {% if content_pages.paginator.num_pages > content_pages.number|add:'9' %}
+                  <li class="page-item"><a class="page-link" href="?page={{ content_pages.number|add:'5' }}">&hellip;</a></li>
+              {% endif %}
+              
+              {% if content_pages.has_next %}
+                  <li class="page-item"><a  class="page-link" href="?page={{ content_pages.next_page_number }}"><i class="fa fa-chevron-right" aria-hidden="true"></i></a></li>
+              {% else %}
+                  <li class="page-item disabled"><span class="page-link"><i class="fa fa-chevron-right" aria-hidden="true"></i></span></li>
+              {% endif %}
+              
+      </nav>
+    {% endif %}
+  </div>
 {% endblock %}
