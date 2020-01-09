@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEBUG = False
 
 
-SECRET_KEY='232FF938NN!@#&^$()(@&@$(@)@*)@_@$@$(@$@^$%^@^*$&@$^$*@$(@$(@^@$)))'
+SECRET_KEY='2smkkskmksmks32FF938NN!@#&^$()(@&@$(@)@*)@_@$@$(@$@^$%^@^*$&@$^$*@$(@$(@^@$)))'
 
 # Application definition
 
@@ -138,11 +138,28 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 #MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 db_from_env = dj_database_url.config(conn_max_age=600,ssl_require=True)
 DATABASES['default'].update(db_from_env)
 
 
-#django_heroku.settings(locals())
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+MEDIA_URL = '/media/'
+
+# Messages
+from django.contrib.messages import constants as messages
+MESSAGE_TAGS = {
+    messages.ERROR : 'danger'
+}
+
+# Email config
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'XXXXXXXX@gmail.com'
+EMAIL_HOST_PASSWORD = 'XXXXXXXXXXXXX'
+EMAIL_USE_TLS = True
+
+
+django_heroku.settings(locals())
