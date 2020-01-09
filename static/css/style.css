@@ -6,11 +6,10 @@
 }
 
 .jumbotron{
-    padding: 2rem 1rem 1rem 1rem;
+    padding: 2rem 1rem;
     background: -webkit-gradient(linear, left top, right top, from(#195297), color-stop(25%, #4cd3e3), to(#195297));
-    background: linear-gradient(to right, #195297 0%, #2582f5 10%,#2582f5  30%,#2582f5 70%,#2582f5 90%,#195297   100%);
+    background: linear-gradient(to right, #195297 0%, #2582f5 8%,#2582f5  20%,#2582f5 80%,#2582f5 92%,#195297   100%);
 }
-
 
 .form-control{
     margin: 10px;
@@ -39,11 +38,11 @@
       margin: 0 auto!important;
   }
   .genric-btn {
-    display: inline-block;
+    display: flex;
     outline: none;
     line-height: 40px;
-    padding: 0 25px;
-    font-size: 1.1rem;
+    padding: 0 40px;
+    font-size: 0.9rem;
     text-align: center;
     text-decoration: none;
     font-weight: 500;
@@ -129,4 +128,25 @@
       color: #4cd3e3;
       border: 1px solid #4cd3e3;
       background: #fff;
+    }
+
+    .btn_1 {
+      display: inline-block;
+      padding: 13px 44px;
+      border-radius: 50px;
+      background-color: transparent;
+      font-size: 15px;
+      font-family: "Rajdhani", sans-serif;
+      font-weight: 500;
+      color: #182028;
+      -webkit-transition: 0.5s;
+      transition: 0.5s;
+      text-transform: uppercase;
+      border: 1px solid #ff4800;
+    }
+    
+    /* line 37, ../../01 cl html template/03_jun 2019/185 Ecobit SAAS html/sass/_button.scss */
+    .btn_1:hover {
+      color: #fff !important;
+      background-color: #ff4800;
     }
