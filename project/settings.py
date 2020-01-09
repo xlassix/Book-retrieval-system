@@ -42,10 +42,11 @@ INSTALLED_APPS = [
     #local
     'pages',
     "accounts",
-    
 ]
 AUTH_USER_MODEL = 'accounts.User'
 IMPORT_EXPORT_USE_TRANSACTIONS = True
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -113,7 +114,7 @@ AUTH_PASSWORD_VALIDATORS = [
 SECRET_KEY = os.environ.get('SECRET_KEY')
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
-ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1','book-retrieval-sys.herokuapp.com']
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1','book-retrieval-sys.herokuapp.com','ec2-174-129-33-25.compute-1.amazonaws.com']
 
 AUTHENTICATION_BACKENDS = ['accounts.core.EmailBackend']
 # Internationalization
@@ -137,7 +138,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 #MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 db_from_env = dj_database_url.config(conn_max_age=600,ssl_require=True)
 DATABASES['default'].update(db_from_env)
