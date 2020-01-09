@@ -37,7 +37,6 @@ INSTALLED_APPS = [
 
     #third_party
     'import_export',
-    'whitenoise.runserver_nostatic'
 
     #local
     'pages',
@@ -145,8 +144,6 @@ STATICFILES_DIRS = [
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 #MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
-db_from_env = dj_database_url.config(conn_max_age=600,ssl_require=True)
-DATABASES['default'].update(db_from_env)
 
 
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
@@ -163,3 +160,6 @@ MESSAGE_TAGS = {
 
 
 django_heroku.settings(locals())
+
+db_from_env = dj_database_url.config(conn_max_age=600,ssl_require=True)
+DATABASES['default'].update(db_from_env)
