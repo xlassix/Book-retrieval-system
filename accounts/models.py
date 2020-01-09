@@ -15,7 +15,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     date_joined = models.DateTimeField('date joined', auto_now_add=True)
     is_active = models.BooleanField('active', default=True)
     is_staff = models.BooleanField('active', default=False)
-    avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)
     favourite_books = models.CharField(max_length=2048, blank=True)
 
     objects = UserManager()
