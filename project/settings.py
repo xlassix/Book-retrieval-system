@@ -82,34 +82,14 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
-    'defaultc': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-
-    },
-        'defaultx': {
-        'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'start',
-        'USER': 'root',
-        'PASSWORD': 'db_password',
-        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
-        'PORT': '3300',
-        'OPTIONS': {
-            'charset': 'utf8',
-            'init_command': 'SET '
-                'storage_engine=INNODB,'
-                'character_set_connection=utf8,'
-                'collation_connection=utf8_bin'
-        }
-    },
-       'default': {
-      'ENGINE': 'django.db.backends.postgresql',
-      'NAME': 'd2pscms9l67qa1',
-      'USER': 'admqdumnnxwlje',
-      'PASSWORD': '59457846f4bf848f959d3702527d177f185947313af37f6008498f057dc4c268',
-      'HOST': 'ec2-174-129-33-25.compute-1.amazonaws.com',
-      'PORT': '5432',
-   }
+     'default': {
+        'ENGINE': 'django.db.backends.postgresql', 
+        'NAME': 'd2pscms9l67qa1',
+        'USER': 'admqdumnnxwlje',
+        'PASSWORD': '59457846f4bf848f959d3702527d177f185947313af37f6008498f057dc4c268',
+        'HOST': 'ec2-174-129-33-25.compute-1.amazonaws.com',   # Or an IP Address that your DB is hosted on
+        'PORT': '5432',
+    }
 }
 
 
