@@ -111,7 +111,11 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-SECRET_KEY = os.environ.get('SECRET_KEY')
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'XXXXXXXX@gmail.com'
+EMAIL_HOST_PASSWORD = 'XXXXXXXXXXXXX'
+EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1','book-retrieval-sys.herokuapp.com','ec2-174-129-33-25.compute-1.amazonaws.com']
@@ -155,11 +159,7 @@ MESSAGE_TAGS = {
 }
 
 # Email config
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'XXXXXXXX@gmail.com'
-EMAIL_HOST_PASSWORD = 'XXXXXXXXXXXXX'
-EMAIL_USE_TLS = True
+
 
 
 django_heroku.settings(locals())
