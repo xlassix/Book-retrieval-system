@@ -37,7 +37,6 @@ INSTALLED_APPS = [
 
     #third_party
     'import_export',
-    'whitenoise.runserver_nostatic',
 
     #local
     'pages',
