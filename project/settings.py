@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-import django_heroku 
+import django_heroku, dj_database_url
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -20,9 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+DEBUG = False
 
 
 SECRET_KEY='232FF938NN!@#&^$()(@&@$(@)@*)@_@$@$(@$@^$%^@^*$&@$^$*@$(@$(@^@$)))'
@@ -39,6 +37,7 @@ INSTALLED_APPS = [
 
     #third_party
     'import_export',
+    'whitenoise.runserver_nostatic',
 
     #local
     'pages',
@@ -55,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'project.urls'
@@ -110,6 +110,10 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+SECRET_KEY = os.environ.get('SECRET_KEY')
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1','book-retrieval-sys.herokuapp.com']
 
 AUTHENTICATION_BACKENDS = ['accounts.core.EmailBackend']
 # Internationalization
@@ -134,8 +138,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 #MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
-
-import dj_database_url
-DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+db_from_env = dj_database_url.config(conn_max_age=600,ssl_require=True)
+DATABASES['default'].update(db_from_env)
 
 django_heroku.settings(locals())
