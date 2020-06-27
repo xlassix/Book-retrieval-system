@@ -92,7 +92,7 @@
               </li>
               <li class="nav-item dropdown d-lg-block d-md-none">
                 <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <img class="myavatar flex  border-gray" src=' {% static "./img/default-avatar.png" %}' alt="...">
+                  <img class="myavatar flex  border-gray" src='/media/Users/{{ request.user.uid }}.jpg ' alt="...">
                   <p>
                     <span >{{request.user.get_full_name}}</span>
                   </p>
