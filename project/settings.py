@@ -15,6 +15,16 @@ import django_heroku, dj_database_url
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import storage
+
+cred = credentials.Certificate(os.path.join(os.path.dirname(os.path.abspath(__file__)),"clear-practice-251418-firebase-adminsdk-ens2o-60e4e42b41.json"))
+firebase_admin.initialize_app(cred, {
+    'storageBucket': 'clear-practice-251418.appspot.com'
+})
+
+BUCKET = storage.bucket()
 
 # Quick-start development settings - unsuitable for productio
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -137,9 +147,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = os.path.join(BASE_DIR, "static")
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
+     os.path.join(BASE_DIR, "static","img"),
 ]
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
@@ -147,7 +158,8 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
-MEDIA_URL = '/media/'
+USER_PROFILE_PIC = os.path.join(BASE_DIR,'media',"Users")
+MEDIA_URL = 'media/'
 
 # Messages
 from django.contrib.messages import constants as messages
